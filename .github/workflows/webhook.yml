@@ -1,0 +1,17 @@
+name: Webhook on Push, Pull Request, and Merge
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  send_webhook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Webhook
+        run: |
+          curl -X POST -H "Content-Type: application/json" -d '{"action": "${{ github.event.action }}", "repository": "${{ github.repository }}", "author": "${{ github.actor }}", "branch": "${{ github.ref }}", "timestamp": "${{ github.event.created_at }}"}' YOUR_WEBHOOK_URL
